@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Blog {% endblock %}
+
+
+{% block content %} 
+
+<div class="container">
+    <h1 class="text-center mb-5" > All Blogs </h1>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for i in items.object_list %}
+            <div class="col">
+              <div class="card h-100">
+                  <img src="{{ i.image.url }}" class="bd-placeholder-img card-img-top" alt="image">
+                <div class="card-body">
+                  <p class="card-text">{{i.title}}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <a type="button" class="btn btn-sm btn-outline-primary" href="{% url 'details' i.id %}">View</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <nav class="mt-4">
+
+      <ul class="pagination justify-content-center">
+        {% if items.has_previous %}
+          <li class="page-item"><a href="?page={{items.previous_page_number}}" class="page-link">Previous</a></li>
+  
+        {% endif %}
+        {% for pg in items.paginator.page_range %}
+          {% if items.number == pg %}
+            <li class="active page-item"><a class="page-link" href="?page={{ pg }}">{{ pg }}</a></li>
+          {% else %}
+          <li class="page-item"><a href="?page={{ pg }}" class="page-link">{{ pg }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if items.has_next %}
+          <li class="page-item"><a href="?page={{ items.next_page_number }}" class="page-link">Next</a></li>
+          <li class="page-item"><a href="?page={{ items.paginator.num_pages  }}" class="page-link">Last</a></li>
+  
+  
+        {% endif %}
+     
+      
+    </nav>
+
+</div>
+
+
+
+{% endblock %}
